@@ -1,0 +1,22 @@
+{
+  "name": "express-subroute",
+  "version": "0.0.2",
+  "author": "Nadav Ivgi <gh@shesek.info>",
+  "license": "WTFPL",
+  "repository": "git://github.com/shesek/express-subroute",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script test.coffee",
+    "prepublish": "coffee -c -o lib/ index.coffee"
+  },
+  "dependencies": {
+    "methods": "*"
+  },
+  "devDependencies": {
+    "coffeescript": "~1.6.1",
+    "supertest": "~0.5.1",
+    "mocha": "~1.8.1",
+    "express": "~3.1.0"
+  },
+  "keywords": ["express", "route", "subroute"]
+}
