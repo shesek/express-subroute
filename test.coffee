@@ -38,8 +38,7 @@ describe 'subroute', ->
             @get (req, res) -> res.end 'GET /foo/qux'
             @lock '/corge', (req, res) -> res.end 'LOCK /foo/qux/corge'
 
-      waiting = 4
-      done = do (done) -> (err) -> if err? then done err else if not --waiting then do done
+      done = do (done, waiting=4) -> (err) -> if err? then done err else if not --waiting then do done
 
       request(app).post('/foo').expect('POST /foo', done)
       request(app).put('/foo/bar').expect('PUT /foo/bar', done)
