@@ -12,10 +12,12 @@ Install via npm:
 ```
 
 ## Usage
+(Written in CoffeeScript, JavaScript version
+[here](https://github.com/shesek/express-subroute/blob/master/USAGE.js))
 
 ```coffee
 express = require 'express'
-subroute = require 'subroute-express'
+subroute = require 'express-subroute'
 
 app = express()
 subroute.install app # or subroute.install() to enable on all express apps
