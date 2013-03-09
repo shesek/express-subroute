@@ -1,5 +1,5 @@
 var express = require('express')
-  , subroute = require('express-subroute');
+  , subroute = require('express-subroute')
   , app = express();
 
 subroute.install(app); // or require('express-subroute').install() to enable on all express apps
