@@ -15,9 +15,6 @@ subroute = (app, path, fn) ->
   # must be called on the original app
   app.use app.router unless app._usedRouter
   sapp = Object.create app, _methods: value: {}
-  #for method in path_methods then do (method, fn=app[method]) ->
-  #  app[method] = (a...) -> console.log 'called',method,a...;  fn.apply this, a
-    
   sapp[method] = wrap app[method], method, path for method in path_methods
 
   fn.call sapp, sapp
