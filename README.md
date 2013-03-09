@@ -1,5 +1,8 @@
 # express-subroute
 
+Sub routes for express, with support for automatic OPTIONS response and 405
+Method Not Allowed.
+
 ## Installation
 
 Install via npm:
