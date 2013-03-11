@@ -14,7 +14,6 @@ describe 'subroute', ->
     it 'installs globally when no target app is provided', ->
       subroute.install()
       assert express().subroute?
-
   describe 'using subroutes', ->
     it 'binds the route methods to use a default path when its omitted', (done) ->
       app = using express(), ->
@@ -44,6 +43,9 @@ describe 'subroute', ->
       request(app).put('/foo/bar').expect('PUT /foo/bar', done)
       request(app).get('/foo/qux').expect('GET /foo/qux', done)
       request(app).lock('/foo/qux/corge').expect('LOCK /foo/qux/corge', done)
+
+    it 'also passes the wrapped app as an argument', ->
+      using express(), -> @subroute '/foo', (arg) -> assert this is arg
 
   describe 'OPTIONS handler', ->
     it 'automatically respondes to OPTIONS with the accepted methods', (done) ->
