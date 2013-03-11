@@ -25,24 +25,31 @@ express().configure ->
   posts = []
   @param 'post', (req, res, next) -> if (req.post = posts[req.params.post])? then do next else res.send 404
 
+  # This adds handlers for GET /blog, GET /blog/about, GET|POST /blog/post,
+  # GET|PUT|DELETE /blog/post/:post and GET|POST /blog/post/:post/comment.
+
   # or `subroute app, '/blog', ->` without `install()`ing
   @subroute '/blog', ->
-    @get (req, res) -> res.end 'welcome!'
-    @get '/about', (req, res) -> res.end 'an example app'
+    @get (req, res) -> res.end 'welcome!' 
+    @get '/about', (req, res) -> res.end 'an example app' 
     
     @subroute '/post', ->
-      @get (req, res) -> res.json posts
-      @post (req, res) -> posts.push req.body; res.send 200
-      @get '/:post', (req, res, next) -> res.json req.post
+      @get (req, res) -> res.json posts 
+      @post (req, res) -> posts.push req.body; res.send 204 
+      @get '/:post', (req, res) -> res.json req.post
+      @put '/:post', (req, res) -> posts[req.params.post]=req.body; res.send 204 
+      @del '/:post', (req, res) -> delete posts[req.params.post]; res.send 204
  
       @subroute '/:post/comment', ->
-        @get (req, res) -> res.json req.post.comments or []
-        @post (req, res) -> (req.post.comments ||= []).push req.body; res.send 200
+        @get (req, res) -> res.json req.post.comments or [] 
+        @post (req, res) -> (req.post.comments ||= []).push req.body; res.send 204
 
   # or by require()ing another file
   @soubroute '/forum', require './forum'
 
+
 # forum.coffee exports a function:
+
 module.exports = ->
   @get (req, res) -> # ...
   @post (req, res) -> # ...
