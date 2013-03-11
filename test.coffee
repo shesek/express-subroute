@@ -11,7 +11,7 @@ describe 'subroute', ->
       subroute.install app = express()
       assert app.subroute?
 
-      it 'installs globally when no target app is provided', ->
+    it 'installs globally when no target app is provided', ->
       subroute.install()
       assert express().subroute?
 
