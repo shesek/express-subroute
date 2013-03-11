@@ -61,9 +61,7 @@ describe 'subroute', ->
       request(app).options('/foo').expect('Allow', 'FOO,BAR', done)
 
   describe '405 Method Not Allowed', (done) ->
-    it 'returns 405 Method Not Allowed for unhandled requests', ->
+    it 'returns 405 Method Not Allowed for unhandled requests', (done) ->
       app = using express(), -> @subroute '/bar', -> @get (req, res) -> res.send 200
-      request(app).get('/bar').expect 200, (err) ->
-        return done err if err?
-        request(app).put('/bar').expect 405, done
+      request(app).put('/bar').expect(405, done)
 
