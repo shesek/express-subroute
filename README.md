@@ -57,6 +57,8 @@ If you don't setup an OPTIONS handler, one is automatically created for you
 with all the methods used in the route. In addition, if none of the handlers
 you register handle the request, an 405 Method not allowed response is sent.
 
+For more info, see [the code](https://github.com/shesek/express-subroute/blob/master/index.coffee) (~30 lines) and [the tests](https://github.com/shesek/express-subroute/blob/master/test.coffee).
+
 Related:
 
 - https://github.com/visionmedia/express/pull/1511
