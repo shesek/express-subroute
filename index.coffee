@@ -8,7 +8,7 @@ path_methods = [ methods..., 'use', 'all' ]
 wrap = (fn, method, path) -> (spath, a...) ->
   if isString spath then fn.call this, path+spath, a...
   else
-    @_methods[method] = true if method not in ['use', 'all']
+    @_methods[method] = true unless method in ['use', 'all']
     fn.call this, path, spath, a...
 
 subroute = (app, path, fn) ->
