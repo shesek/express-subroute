@@ -13,7 +13,7 @@ Install via npm:
 
 ## Example
 A tiny in-memory blog app. written in CoffeeScript, and there's also a JavaScript version
-at [USAGE.js](https://github.com/shesek/express-subroute/blob/master/USAGE.js))
+at [USAGE.js](https://github.com/shesek/express-subroute/blob/master/USAGE.js).
 
 ```coffee
 express  = require 'express'
