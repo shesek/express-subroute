@@ -11,45 +11,46 @@ Install via npm:
   $ npm install express-subroute
 ```
 
-## Usage
-(Written in CoffeeScript, JavaScript version
+## Example
+A tiny in-memory blog app. written in CoffeeScript, and there's also a JavaScript version
 at [USAGE.js](https://github.com/shesek/express-subroute/blob/master/USAGE.js))
 
 ```coffee
-express = require 'express'
+express  = require 'express'
 subroute = require 'express-subroute'
 
-app = express()
-subroute.install app # or require('express-subroute').install() to enable on all express apps
+express().configure ->
+  subroute.install this # or require('express-subroute').install() to enable globally
 
-# or `subroute app, '/foo', ->` without `install()`ing
-app.subroute '/foo', ->
-  @get (req, res) -> # GET /foo
-  @post (req, res) -> # POST /foo
-  @get '/bar', (req, res) -> # GET /foo/bar
+  posts = []
+  @param 'post', (req, res, next) -> if (req.post = posts[req.params.post])? then do next else res.send 404
 
-  @subroute '/baz', ->
-    @use ... # -> .use('/foo/baz', somefn)
-    @get ... # GET /foo/baz
-    @put '/qux', ... # PUT /foo/baz/qux
+  # or `subroute app, '/blog', ->` without `install()`ing
+  @subroute '/blog', ->
+    @get (req, res) -> res.end 'welcome!'
+    @get '/about', (req, res) -> res.end 'an example app'
+    
+    @subroute '/post', ->
+      @get (req, res) -> res.json posts
+      @post (req, res) -> posts.push req.body; res.send 200
+      @get '/:post', (req, res, next) -> res.json req.post
+ 
+      @subroute '/:post/comment', ->
+        @get (req, res) -> res.json req.post.comments or []
+        @post (req, res) -> (req.post.comments ||= []).push req.body; res.send 200
 
-  # also passes an argument, if you prefer to avoid using `this`
-  @subroute '/corge', (route) =>
-    route.get ... # GET /foo/corge
-```
+  # or by require()ing another file
+  @soubroute '/forum', require './forum'
 
-Works nicely with required modules:
-
-```coffee
-# main.coffee
-app.subroute '/user', require './user'
-
-# user.coffee
+# forum.coffee exports a function:
 module.exports = ->
-  @get (req, res) -> # GET /user
-  @post ... # POST /user
-  @put '/:id', ... # PUT /user/:id
+  @get (req, res) -> # ...
+  @post (req, res) -> # ...
+  # ...
 
+# Note: for something like a blog or a forum, you should probably create sub-apps and
+#       mount them to the main app, rather than using subroutes. its more suitable for
+#       smaller things. I'm just using this as an example.
 ```
 
 If you don't setup an OPTIONS handler, one is automatically created for you
