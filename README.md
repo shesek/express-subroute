@@ -23,10 +23,9 @@ express().configure ->
   subroute.install this # or require('express-subroute').install() to enable globally
 
   posts = []
-  @param 'post', (req, res, next) -> if (req.post = posts[req.params.post])? then do next else res.send 404
-
-  # This adds handlers for GET /blog, GET /blog/about, GET|POST /blog/post,
-  # GET|PUT|DELETE /blog/post/:post and GET|POST /blog/post/:post/comment.
+  @param 'post', (req, res, next) ->
+    if req.post = posts[req.params.post] then do next
+    else res.send 404
 
   # or `subroute app, '/blog', ->` without `install()`ing
   @subroute '/blog', ->
@@ -44,27 +43,30 @@ express().configure ->
         @get (req, res) -> res.json req.post.comments or [] 
         @post (req, res) -> (req.post.comments ||= []).push req.body; res.send 204
 
-  # or by require()ing another file
+  # Adds handlers to the following methods/paths:
+  # - GET|OPTIONS      /blog
+  # - GET              /blog/about
+  # - GET|POST|OPTIONS /blog/post
+  # - GET|PUT|DELETE   /blog/post/:post
+  # - GET|POST|OPTIONS /blog/post/:post/comment
+
+
+  # you can also require() the function from another file
   @soubroute '/forum', require './forum'
 
-
 # forum.coffee exports a function:
-
 module.exports = ->
   @get (req, res) -> # ...
   @post (req, res) -> # ...
   # ...
-
-# Note: for something like a blog or a forum, you should probably create sub-apps and
-#       mount them to the main app, rather than using subroutes. its more suitable for
-#       smaller things. I'm just using this as an example.
 ```
 
 If you don't setup an OPTIONS handler, one is automatically created for you
 with all the methods used in the route. In addition, if none of the handlers
 you register handle the request, an 405 Method not allowed response is sent.
 
-For more info, see [the code](https://github.com/shesek/express-subroute/blob/master/index.coffee) (~30 lines) and [the tests](https://github.com/shesek/express-subroute/blob/master/test.coffee).
+For more info, see [the code](https://github.com/shesek/express-subroute/blob/master/index.coffee) (~30 lines)
+and [the tests](https://github.com/shesek/express-subroute/blob/master/test.coffee).
 
 Related:
 

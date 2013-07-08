@@ -15,9 +15,9 @@ subroute = (app, path, fn) ->
   # ensure the router is used. attempting to enable it later
   # via the wrapped use() will not work.
   app.use app.router unless app._usedRouter
+
   sapp = Object.create app, _methods: value: {}
   sapp[method] = wrap app[method], method, path for method in path_methods
-
   fn.call sapp, sapp
 
   unless sapp._methods.options?
