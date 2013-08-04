@@ -3,7 +3,7 @@ var express  = require('express')
   , app = express();
 
 
-subroute.install(this); // or require('express-subroute').install() to enable globally
+subroute.install(app); // or require('express-subroute').install() to enable globally
 
 var posts = [];
 app.param('post', function(req, res, next) {
