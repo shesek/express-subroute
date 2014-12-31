@@ -1,6 +1,6 @@
 {
   "name": "express-subroute",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "author": "Nadav Ivgi <gh@shesek.info>",
   "license": "WTFPL",
   "repository": "git://github.com/shesek/express-subroute",
